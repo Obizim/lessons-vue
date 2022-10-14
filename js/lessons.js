@@ -1,4 +1,4 @@
-lessons: [
+export const lessons = [
     {
       id: 1,
       subject: "Mathematics",
@@ -15,6 +15,69 @@ lessons: [
     },
     {
       id: 3,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 4,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 5,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 6,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 7,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 8,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 9,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 10,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 11,
+      subject: "Mathematics",
+      location: "Hendon, London",
+      price: "£100",
+      spaces: 5,
+    },
+    {
+      id: 12,
       subject: "Mathematics",
       location: "Hendon, London",
       price: "£100",

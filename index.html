@@ -19,13 +19,13 @@
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <title>LEZIONE</title>
   </head>
   <body style="font-family: 'Rubik', sans-serif;"> 
     <div id="app">
       <header class="border-bottom">
         <nav class="container navbar navbar-light justify-content-between">
-          <h4 class="navbar-brand">LESSON</h4>
+          <h4 class="navbar-brand">LEZIONE</h4>
 
           <button type="button" class="btn btn-danger">
             <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
@@ -37,7 +37,7 @@
       <div class="container mt-4">
         <div class="row">
             <!-- SEARCH & FILTERS  -->
-            <div class="col">
+            <div class="col mt-4">
                 <input type="text" placeholder="Search for a lesson" class="p-2">
 
                 <h5 class="mt-4 mb-4">FILTERS</h5>
@@ -67,7 +67,7 @@
                             <label for="ascending">Ascending</label>
                         </div>
                         <div>
-                            <input type="radio" value="descending" name="group1">
+                            <input type="radio" value="descending" name="group2">
                             <label for="descending">Descending</label>
                         </div>
                     </fieldset>
@@ -75,7 +75,22 @@
             </div>
 
             <!-- LESSON CARDS  -->
-            <div class="col-9">jfs</div>
+            <div class="col-9 mt-4">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 mb-4" v-for="(lesson, id) in lessons" :key="id">
+                    <div class="card">
+                      <img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top">
+                      <div class="card-body">
+                        <h5 class="card-title">Subject: {{ lesson.subject }}</h5>
+                        <p class="card-text mb-0">Location: {{ lesson.location }}</p>
+                        <p class="card-text mb-0">Price: {{ lesson.price }}</p>
+                        <p class="card-text">Spaces: {{ lesson.spaces }}</p>
+                       <button class="btn btn-outline-danger btn-sm">Add to cart</button>
+                      </div>
+                     </div>
+                    </div>
+                  </div>
+            </div>
         </div>
       </div>
     </div>
@@ -83,5 +98,5 @@
 
   <!-- Vue CDN -->
   <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-  <script src="./js/app.js"></script>
+  <script type="module" src="./js/app.js"></script>
 </html>
