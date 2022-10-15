@@ -29,7 +29,7 @@
 
           <button type="button" class="btn btn-danger">
             <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
-            <span class="badge bg-white text-dark">2</span>
+            <span class="badge bg-white text-dark">{{ cart.length }}</span>
           </button>
         </nav>
       </header>
@@ -38,7 +38,7 @@
         <div class="row">
             <!-- SEARCH & FILTERS  -->
             <div class="col mt-4">
-                <input type="text" placeholder="Search for a lesson" class="p-2">
+                <input type="text" placeholder="Search for a lesson" v-model="search" class="p-2">
 
                 <h5 class="mt-4 mb-4">FILTERS</h5>
                 <form>
@@ -77,7 +77,7 @@
             <!-- LESSON CARDS  -->
             <div class="col-9 mt-4">
                 <div class="row">
-                    <div class="col-md-6 col-lg-4 mb-4" v-for="(lesson, id) in lessons" :key="id">
+                    <div class="col-md-6 col-lg-4 mb-4" v-for="(lesson, id) in filteredLessons" :key="id">
                     <div class="card">
                       <img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top">
                       <div class="card-body">
@@ -85,9 +85,14 @@
                         <p class="card-text mb-0">Location: {{ lesson.location }}</p>
                         <p class="card-text mb-0">Price: {{ lesson.price }}</p>
                         <p class="card-text">Spaces: {{ lesson.spaces }}</p>
-                       <button class="btn btn-outline-danger btn-sm">Add to cart</button>
+                       <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)">Add to cart</button>
                       </div>
                      </div>
+                    </div>
+
+                    <!-- ALert Error for Search -->
+                    <div class="col mb-4" v-show="filteredLessons.length === 0">
+                        <div class="alert alert-danger" role="alert">Alert!! Lesson not found!.</div>
                     </div>
                   </div>
             </div>
