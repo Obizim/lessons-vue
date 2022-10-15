@@ -19,15 +19,16 @@
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./css/syle.css">
     <title>LEZIONE</title>
   </head>
-  <body style="font-family: 'Rubik', sans-serif;"> 
+  <body> 
     <div id="app">
       <header class="border-bottom">
         <nav class="container navbar navbar-light justify-content-between">
           <h4 class="navbar-brand">LEZIONE</h4>
 
-          <button type="button" class="btn btn-danger">
+          <button type="button" class="btn btn-danger" @click="toggle">
             <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
             <span class="badge bg-white text-dark">{{ cart.length }}</span>
           </button>
@@ -98,6 +99,29 @@
             </div>
         </div>
       </div>
+
+
+      <!-- Cart Items  -->
+      <div class="sidebar bg-white p-4" :class="{ active: !cartOpen, inactive: cartOpen}">
+        <div class="row border-bottom container">
+          <span class="col-3 font-weight-bold" @click="toggle">X</span>
+          <h4 class="col-9">Cart Items</h4>
+        </div>
+
+        <div class="body mt-4">
+          <div v-for="(item, id) in cart" :key="id">
+            <div class="card mb-2">
+              <h5 class="card-header">{{ item.subject }}</h5>
+              <div class="card-body">
+                <p class="card-text">{{ item.location }}</p>
+                <button class="btn btn-danger">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+      <!-- end  -->
     </div>
   </body>
 

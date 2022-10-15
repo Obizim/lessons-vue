@@ -8,12 +8,16 @@ let app = new Vue({
       lessons,
       cart: [],
       search: "",
+      cartOpen: false
     };
   },
   methods: {
     addToCart(lesson) {
       this.cart.push(lesson);
     },
+    toggle() {
+        this.cartOpen = !this.cartOpen
+    }
   },
   computed: {
     filteredLessons() {
