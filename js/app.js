@@ -8,12 +8,17 @@ let app = new Vue({
       lessons,
       cart: [],
       search: "",
-      cartOpen: false
+      cartOpen: false,
     };
   },
   methods: {
     addToCart(lesson) {
       this.cart.push(lesson);
+      let selectedCartItem = this.cart.find(cart => cart.id === lesson.id)
+      if(selectedCartItem) {
+        let  selectedLesson = this.lessons.find(item => item.id === lesson.id)
+        return selectedLesson.spaces--
+      }
     },
     toggle() {
         this.cartOpen = !this.cartOpen
@@ -26,6 +31,6 @@ let app = new Vue({
           lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
           lesson.location.toLowerCase().includes(this.search.toLowerCase())
       );
-    },
+    }
   },
 });

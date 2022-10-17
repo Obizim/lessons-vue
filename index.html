@@ -28,7 +28,7 @@
         <nav class="container navbar navbar-light justify-content-between">
           <h4 class="navbar-brand">LEZIONE</h4>
 
-          <button type="button" class="btn btn-danger" @click="toggle">
+          <button type="button" class="btn btn-danger" :disabled="cart.length === 0" @click="toggle">
             <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
             <span class="badge bg-white text-dark">{{ cart.length }}</span>
           </button>
@@ -39,7 +39,7 @@
         <div class="row">
             <!-- SEARCH & FILTERS  -->
             <div class="col mt-4">
-                <input type="text" placeholder="Search for a lesson" v-model="search" class="p-2">
+                <input type="text" placeholder="Search for a lesson" v-model="search" class="p-2 form-control">
 
                 <h5 class="mt-4 mb-4">FILTERS</h5>
                 <form>
@@ -86,7 +86,7 @@
                         <p class="card-text mb-0">Location: {{ lesson.location }}</p>
                         <p class="card-text mb-0">Price: {{ lesson.price }}</p>
                         <p class="card-text">Spaces: {{ lesson.spaces }}</p>
-                       <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)">Add to cart</button>
+                       <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)" :disabled="lesson.spaces === 0">Add to cart</button>
                       </div>
                      </div>
                     </div>
@@ -102,13 +102,13 @@
 
 
       <!-- Cart Items  -->
-      <div class="sidebar bg-white p-4" :class="{ active: !cartOpen, inactive: cartOpen}">
+      <div class="sidebar bg-white p-4 sidescroll" :class="{ active: !cartOpen, inactive: cartOpen}">
         <div class="row border-bottom container">
           <span class="col-3 font-weight-bold" @click="toggle">X</span>
           <h4 class="col-9">Cart Items</h4>
         </div>
 
-        <div class="body mt-4">
+        <div class="body mt-4 mb-4">
           <div v-for="(item, id) in cart" :key="id">
             <div class="card mb-2">
               <h5 class="card-header">{{ item.subject }}</h5>
@@ -118,6 +118,23 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- CHECKOUT SECTION  -->
+        <div class="checkout mt-4">
+          <h4 class="text-center">Checkout</h4>
+
+          <form>
+            <div class="form-group">
+              <label for="exampleInputName">Name</label>
+              <input type="text" class="form-control" id="exampleInputname"  placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputNumber">Number</label>
+              <input type="number" class="form-control" id="exampleInputNumber" placeholder="Enter your number">
+            </div>
+            <button type="submit" class="btn btn-danger">Checkout</button>
+          </form>
         </div>
     </div>
 
