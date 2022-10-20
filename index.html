@@ -78,15 +78,15 @@
             <!-- LESSON CARDS  -->
             <div class="col-9 mt-4">
                 <div class="row">
-                    <div class="col-md-6 col-lg-4 mb-4" v-for="(lesson, id) in filteredLessons" :key="id">
+                    <div class="col-md-6 col-lg-4 mb-4" v-for="lesson in filteredLessons" :key="lesson.id">
                     <div class="card">
                       <img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top">
                       <div class="card-body">
                         <h5 class="card-title">Subject: {{ lesson.subject }}</h5>
                         <p class="card-text mb-0">Location: {{ lesson.location }}</p>
                         <p class="card-text mb-0">Price: {{ lesson.price }}</p>
-                        <p class="card-text">Spaces: {{ lesson.spaces }}</p>
-                       <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)" :disabled="lesson.spaces === 0">Add to cart</button>
+                        <p class="card-text">Spaces: {{ lesson.spaces - lesson.count }}</p>
+                       <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)" :disabled="lesson.count === lesson.spaces">Add to cart</button>
                       </div>
                      </div>
                     </div>
@@ -109,12 +109,12 @@
         </div>
 
         <div class="body mt-4 mb-4">
-          <div v-for="(item, id) in cart" :key="id">
+          <div v-for="item in itemsInCart" :key="item.id">
             <div class="card mb-2">
               <h5 class="card-header">{{ item.subject }}</h5>
               <div class="card-body">
                 <p class="card-text">{{ item.location }}</p>
-                <button class="btn btn-danger">Remove</button>
+                <button class="btn btn-danger" @click="removeFromCart(item.id)">Remove</button>
               </div>
             </div>
           </div>

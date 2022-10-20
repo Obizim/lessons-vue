@@ -5,6 +5,7 @@ export const lessons = [
       location: "London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 2,
@@ -12,6 +13,7 @@ export const lessons = [
       location: "Birmingham",
       price: "£50",
       spaces: 5,
+      count: 0
     },
     {
       id: 3,
@@ -19,6 +21,7 @@ export const lessons = [
       location: "Edinburgh",
       price: "£140",
       spaces: 5,
+      count: 0
     },
     {
       id: 4,
@@ -26,6 +29,7 @@ export const lessons = [
       location: "Hendon, London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 5,
@@ -33,6 +37,7 @@ export const lessons = [
       location: "Golder's Green",
       price: "£10",
       spaces: 5,
+      count: 0
     },
     {
       id: 6,
@@ -40,6 +45,7 @@ export const lessons = [
       location: "Tottenham",
       price: "£190",
       spaces: 5,
+      count: 0
     },
     {
       id: 7,
@@ -47,6 +53,7 @@ export const lessons = [
       location: "London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 8,
@@ -54,6 +61,7 @@ export const lessons = [
       location: "Hendon, London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 9,
@@ -61,6 +69,7 @@ export const lessons = [
       location: "Hendon, London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 10,
@@ -68,6 +77,7 @@ export const lessons = [
       location: "Hendon, London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 11,
@@ -75,6 +85,7 @@ export const lessons = [
       location: "Hendon, London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
     {
       id: 12,
@@ -82,5 +93,6 @@ export const lessons = [
       location: "Hendon, London",
       price: "£100",
       spaces: 5,
+      count: 0
     },
   ]

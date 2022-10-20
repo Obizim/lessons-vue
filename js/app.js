@@ -13,16 +13,29 @@ let app = new Vue({
   },
   methods: {
     addToCart(lesson) {
-      this.cart.push(lesson);
-      let selectedCartItem = this.cart.find(cart => cart.id === lesson.id)
-      if(selectedCartItem) {
-        let  selectedLesson = this.lessons.find(item => item.id === lesson.id)
-        return selectedLesson.spaces--
+      let selectedCartItem = this.cart.findIndex(
+        (cart) => cart.id === lesson.id
+      );
+      if (selectedCartItem > -1) {
+        this.cart[selectedCartItem].count++;
+      } else {
+        this.cart.push({ id: lesson.id, count: 1 });
       }
+      let selectedLesson = this.lessons.find((item) => item.id === lesson.id);
+      return selectedLesson.count++;
     },
     toggle() {
-        this.cartOpen = !this.cartOpen
-    }
+      this.cartOpen = !this.cartOpen;
+    },
+    removeFromCart(lesson) {
+      let selectedCartItem = this.cart.findIndex((item) => item.id === lesson);
+      let selectedLesson = this.lessons.findIndex((item) => item.id === lesson);
+      this.lessons[selectedLesson].count--;
+      this.cart[selectedCartItem].count--;
+      if (this.cart[selectedCartItem].count === 0) {
+        this.cart.splice(selectedCartItem, 1);
+      }
+    },
   },
   computed: {
     filteredLessons() {
@@ -31,6 +44,13 @@ let app = new Vue({
           lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
           lesson.location.toLowerCase().includes(this.search.toLowerCase())
       );
-    }
+    },
+    itemsInCart() {
+      const item = this.cart.map((i) => {
+        let selectedLesson = this.lessons.find((item) => item.id === i.id);
+        return { ...selectedLesson, ...i };
+      });
+      return item;
+    },
   },
 });
