@@ -43,3 +43,8 @@ body {
 .sidescroll::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
+
+.card-img-top {
+    height: 150px;
+    object-fit: cover;
+}
