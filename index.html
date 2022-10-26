@@ -23,7 +23,7 @@
         <nav class="container navbar navbar-light justify-content-between">
           <h4 class="navbar-brand">LEZIONE</h4>
 
-          <button type="button" class="btn btn-danger" :disabled="cart.length === 0" @click="toggle">
+          <button type="button" class="btn btn-danger" :disabled="cart.length === 0" @click="show = !show">
             <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
             <span class="badge bg-white text-dark">{{ cart.length }}</span>
           </button>
@@ -40,30 +40,30 @@
                 <form>
                     <fieldset id="group1" class="border-bottom">
                         <div>
-                            <input type="radio" value="subject" name="group1">
+                            <input type="radio" value="subject" v-model="radioBtn.category" name="group1">
                             <label for="subject">Subject</label>
                         </div>
                         <div>
-                            <input type="radio" value="location" name="group1">
+                            <input type="radio" value="location" v-model="radioBtn.category" name="group1">
                             <label for="location">Location</label>
                         </div>
                         <div>
-                            <input type="radio" value="price" name="group1">
+                            <input type="radio" value="price" v-model="radioBtn.category" name="group1">
                             <label for="price">Price</label>
                         </div>
                         <div>
-                            <input type="radio" value="availability" name="group1">
+                            <input type="radio" value="availability" v-model="radioBtn.category" name="group1">
                             <label for="availabiity">Availability</label>
                         </div>
                     </fieldset>
                   
                     <fieldset id="group2" class="mt-4">
                         <div>
-                            <input type="radio" value="ascending" name="group2">
+                            <input type="radio" value="ascending" v-model="radioBtn.mode" name="group2">
                             <label for="ascending">Ascending</label>
                         </div>
                         <div>
-                            <input type="radio" value="descending" name="group2">
+                            <input type="radio" value="descending" v-model="radioBtn.mode" name="group2">
                             <label for="descending">Descending</label>
                         </div>
                     </fieldset>
@@ -73,7 +73,7 @@
             <!-- LESSON CARDS  -->
             <div class="col-9 mt-4">
                 <div class="row">
-                    <div class="col-md-6 col-lg-4 mb-4" v-for="lesson in filteredLessons" :key="lesson.id">
+                    <div class="col-md-6 col-lg-4 mb-4" v-for="lesson in searchLessons" :key="lesson.id">
                     <div class="card">
                       <img :src="lesson.image" alt="lesson.subject" class="card-img-top">
                       <div class="card-body">
@@ -88,7 +88,7 @@
                     </div>
 
                     <!-- ALert Error for Search -->
-                    <div class="col mb-4" v-show="filteredLessons.length === 0">
+                    <div class="col mb-4" v-show="searchLessons.length === 0">
                         <div class="alert alert-danger" role="alert">Alert!! Lesson not found!.</div>
                     </div>
                   </div>
@@ -98,18 +98,25 @@
 
 
       <!-- Cart Items  -->
-      <div class="sidebar bg-white p-4 sidescroll" :class="{ active: !cartOpen, inactive: cartOpen}">
+      <div class="sidebar bg-white p-4 sidescroll" :class="{ active: !show, inactive: show}">
         <div class="row border-bottom container">
-          <span class="col-3 font-weight-bold" @click="toggle">X</span>
+          <span class="col-3 font-weight-bold" style="cursor: pointer;" @click="show = !show">&times;</span>
           <h4 class="col-9">Cart Items</h4>
+        </div>
+
+        <div class="breadcrumb mt-4" v-if="cart.length === 0">
+          <h5>No Items In Cart</h5>
         </div>
 
         <div class="body mt-4 mb-4">
           <div v-for="item in itemsInCart" :key="item.id">
             <div class="card mb-2">
-              <h5 class="card-header">{{ item.subject }}</h5>
+              <img :src="item.image" alt="item.subject" class="card-img-top">
               <div class="card-body">
-                <p class="card-text">{{ item.location }}</p>
+                <h5 class="card-title">Subject: {{ item.subject }}</h5>
+                <p class="card-text mb-0">Location: {{ item.location }}</p>
+                <p class="card-text">Price: {{ item.price }}</p>
+                <h5 class="card-text bold">Count: X{{ item.count }}</h5>
                 <button class="btn btn-danger" @click="removeFromCart(item.id)">Remove</button>
               </div>
             </div>
@@ -120,19 +127,54 @@
         <div class="checkout mt-4">
           <h4 class="text-center">Checkout</h4>
 
-          <form>
+          <form @submit.prevent>
             <div class="form-group">
-              <label for="exampleInputName">Name</label>
-              <input type="text" class="form-control" id="exampleInputname"  placeholder="Enter Name">
+              <div class="d-flex justify-content-between">
+                <label for="exampleInputName">Name</label>
+                <span class="text-danger">{{ errors.name }}</span>
+              </div>
+              <input type="text" class="form-control" id="exampleInputName" placeholder="Enter Name" v-model="name">
             </div>
             <div class="form-group">
-              <label for="exampleInputNumber">Number</label>
-              <input type="number" class="form-control" id="exampleInputNumber" placeholder="Enter your number">
+              <div class="d-flex justify-content-between">
+                <label for="exampleInputNumber">Number</label>
+                <span class="text-danger">{{ this.errors.number }}</span>
+              </div>
+              <input type="tel" class="form-control" id="exampleInputNumber" maxlength="11"  placeholder="Enter a valid number" v-model="number">
             </div>
-            <button type="submit" class="btn btn-danger">Checkout</button>
+            <button type="submit" class="btn btn-danger" :disabled="!name || !number" @click="toggleModal">Checkout</button>
           </form>
         </div>
     </div>
+
+
+    
+<!-- Modal -->
+<div v-if="modalOpen">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Checkout Successfull</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" onClick="window.location.reload();">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>You have successfully checked out items from the cart</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" onClick="window.location.reload();">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
 
       <!-- end  -->
     </div>
