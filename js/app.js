@@ -76,33 +76,53 @@ let app = new Vue({
   },
   computed: {
     searchLessons() {
+     const lessons = this.lessons.filter(
+        (lesson) =>
+          lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
+          lesson.location.toLowerCase().includes(this.search.toLowerCase())
+      );
+
       if (this.order === "ascending") {
         switch (this.category) {
           case "subject":
-            return this.lessons.sort((a, b) => {
+            return lessons.sort((a, b) => {
               if (a.subject.toLowerCase() < b.subject.toLowerCase()) return -1;
               return 1;
             });
           case "location":
-            return this.lessons.sort((a, b) => {
+            return lessons.sort((a, b) => {
               if (a.location.toLowerCase() < b.location.toLowerCase())
                 return -1;
               return 1;
             });
           case "price":
-            return this.lessons.sort((a, b) => a.price - b.price);
+            return lessons.sort((a, b) => a.price - b.price);
           case "availability":
-            return this.lessons.sort(
+            return lessons.sort(
               (a, b) => a.spaces - a.count - (b.spaces - b.count)
             );
         }
+      }else if(this.order === "descending"){
+        switch (this.category) {
+          case "subject":
+            return lessons.sort((a, b) => {
+              if (a.subject.toLowerCase() < b.subject.toLowerCase()) return 1;
+              return -1;
+            });
+          case "location":
+            return lessons.sort((a, b) => {
+              if (a.location.toLowerCase() < b.location.toLowerCase()) return 1;
+              return -1;
+            });
+          case "price":
+            return lessons.sort((a, b) => b.price - a.price);
+          case "availability":
+            return lessons.sort(
+              (a, b) => (b.spaces - b.count )- (a.spaces - a.count)
+            );
+        }
       }
-
-      return this.lessons.filter(
-        (lesson) =>
-          lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
-          lesson.location.toLowerCase().includes(this.search.toLowerCase())
-      );
+      return lessons
     },
     cartCount() {
       return this.lessons.reduce(function (acc, obj) {

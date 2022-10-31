@@ -55,7 +55,6 @@
                             <input id="availability" type="radio" value="availability" v-model="category" name="group1">
                             <label for="availability">Availability</label>
                         </div>
-                        {{category}}
                     </fieldset>
                   
                     <fieldset id="group2" class="mt-4">
@@ -67,7 +66,6 @@
                             <input id="descending" type="radio" value="descending" v-model="order" name="group2">
                             <label for="descending">Descending</label>
                         </div>
-                        {{ order }}
                     </fieldset>
                   </form>
             </div>
@@ -90,9 +88,9 @@
                     </div>
 
                     <!-- ALert Error for Search -->
-                    <div class="col mb-4" v-show="searchLessons.length === 0">
+                    <!-- <div class="col mb-4" v-show="searchLessons.length === 0">
                         <div class="alert alert-danger" role="alert">Alert!! Lesson not found!.</div>
-                    </div>
+                    </div> -->
                   </div>
             </div>
         </div>
