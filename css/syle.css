@@ -5,6 +5,14 @@ body {
     scroll-behavior: smooth;
 }
 
+[v-cloak] {
+    display: none;
+  }
+
+  input[type="radio"] {
+    cursor: pointer;
+  }
+
 .sidebar {
     position: fixed;
     top: 0;

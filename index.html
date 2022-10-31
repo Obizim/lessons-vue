@@ -18,14 +18,14 @@
     <title>LEZIONE</title>
   </head>
   <body> 
-    <div id="app">
+    <div id="app" v-cloak>
       <header class="border-bottom">
         <nav class="container navbar navbar-light justify-content-between">
           <h4 class="navbar-brand">LEZIONE</h4>
 
           <button type="button" class="btn btn-danger" :disabled="cart.length === 0" @click="show = !show">
             <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
-            <span class="badge bg-white text-dark">{{ cart.length }}</span>
+            <span class="badge bg-white text-dark">{{ cartCount }}</span>
           </button>
         </nav>
       </header>
@@ -40,32 +40,34 @@
                 <form>
                     <fieldset id="group1" class="border-bottom">
                         <div>
-                            <input type="radio" value="subject" v-model="radioBtn.category" name="group1">
+                            <input id="subject" type="radio" value="subject" v-model="category" name="group1">
                             <label for="subject">Subject</label>
                         </div>
                         <div>
-                            <input type="radio" value="location" v-model="radioBtn.category" name="group1">
+                            <input id="location" type="radio" value="location" v-model="category" name="group1">
                             <label for="location">Location</label>
                         </div>
                         <div>
-                            <input type="radio" value="price" v-model="radioBtn.category" name="group1">
+                            <input id="price" type="radio" value="price" v-model="category" name="group1">
                             <label for="price">Price</label>
                         </div>
                         <div>
-                            <input type="radio" value="availability" v-model="radioBtn.category" name="group1">
-                            <label for="availabiity">Availability</label>
+                            <input id="availability" type="radio" value="availability" v-model="category" name="group1">
+                            <label for="availability">Availability</label>
                         </div>
+                        {{category}}
                     </fieldset>
                   
                     <fieldset id="group2" class="mt-4">
                         <div>
-                            <input type="radio" value="ascending" v-model="radioBtn.mode" name="group2">
+                            <input id="ascending" type="radio" value="ascending" v-model="order" name="group2">
                             <label for="ascending">Ascending</label>
                         </div>
                         <div>
-                            <input type="radio" value="descending" v-model="radioBtn.mode" name="group2">
+                            <input id="descending" type="radio" value="descending" v-model="order" name="group2">
                             <label for="descending">Descending</label>
                         </div>
+                        {{ order }}
                     </fieldset>
                   </form>
             </div>
@@ -80,7 +82,7 @@
                         <i :class="lesson.icon" class="fa-2x mb-2" aria-hidden="true"></i>
                         <h5 class="card-title">Subject: {{ lesson.subject }}</h5>
                         <p class="card-text mb-0">Location: {{ lesson.location }}</p>
-                        <p class="card-text mb-0">Price: {{ lesson.price }}</p>
+                        <p class="card-text mb-0">Price: £{{ lesson.price }}</p>
                         <p class="card-text">Spaces: {{ lesson.spaces - lesson.count }}</p>
                        <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)" :disabled="lesson.count === lesson.spaces">Add to cart</button>
                       </div>

@@ -8,29 +8,27 @@ let app = new Vue({
       lessons,
       cart: [],
       search: "",
-      name: '',
-      number: '',
-      radioBtn: {
-        category: null,
-        mode: null
-      },
+      name: "",
+      number: "",
+      category: null,
+      order: null,
       show: false,
       modalOpen: false,
       errors: {
-        name: '',
-        number: ""
+        name: "",
+        number: "",
       },
     };
   },
   watch: {
     name(value) {
-      this.name = value
-      this.nameValidation(value)
+      this.name = value;
+      this.nameValidation(value);
     },
     number(value) {
-      this.number = value
-      this.numberValidation(value)
-    }
+      this.number = value;
+      this.numberValidation(value);
+    },
   },
   methods: {
     addToCart(lesson) {
@@ -46,7 +44,7 @@ let app = new Vue({
       return selectedLesson.count++;
     },
     toggleModal() {
-      this.modalOpen = !this.modalOpen
+      this.modalOpen = !this.modalOpen;
     },
     removeFromCart(lesson) {
       let selectedCartItem = this.cart.findIndex((item) => item.id === lesson);
@@ -58,32 +56,60 @@ let app = new Vue({
       }
     },
     nameValidation() {
-      let namePattern = /\d/
-      if(namePattern.test(this.name)){
-        this.errors.name = "Valid name required"
-      }else {
-        this.errors.name = ""
+      let namePattern = /\d/;
+      if (namePattern.test(this.name)) {
+        this.errors.name = "Valid name required";
+      } else {
+        this.errors.name = "";
       }
     },
     numberValidation() {
       const validationRegex = /^[0-9+\(\)#\.\s\/ext-]+$/;
       if (validationRegex.test(this.number) === false) {
-        this.errors.number = "Valid number required"
-      }else if(this.number.length > 0 && this.number.length < 11) {
-        this.errors.number = "Minimum of 11 numbers"
-      }else {
-       this.errors.number = ""
+        this.errors.number = "Valid number required";
+      } else if (this.number.length > 0 && this.number.length < 11) {
+        this.errors.number = "Minimum of 11 numbers";
+      } else {
+        this.errors.number = "";
       }
-    }
+    },
   },
   computed: {
     searchLessons() {
+      if (this.order === "ascending") {
+        switch (this.category) {
+          case "subject":
+            return this.lessons.sort((a, b) => {
+              if (a.subject.toLowerCase() < b.subject.toLowerCase()) return -1;
+              return 1;
+            });
+          case "location":
+            return this.lessons.sort((a, b) => {
+              if (a.location.toLowerCase() < b.location.toLowerCase())
+                return -1;
+              return 1;
+            });
+          case "price":
+            return this.lessons.sort((a, b) => a.price - b.price);
+          case "availability":
+            return this.lessons.sort(
+              (a, b) => a.spaces - a.count - (b.spaces - b.count)
+            );
+        }
+      }
+
       return this.lessons.filter(
         (lesson) =>
           lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
           lesson.location.toLowerCase().includes(this.search.toLowerCase())
       );
     },
+    cartCount() {
+      return this.lessons.reduce(function (acc, obj) {
+        return acc + obj.count;
+      }, 0);
+    },
+
     itemsInCart() {
       const item = this.cart.map((i) => {
         let selectedLesson = this.lessons.find((item) => item.id === i.id);
@@ -91,7 +117,5 @@ let app = new Vue({
       });
       return item;
     },
-    filterLessons() {
-    }
   },
 });
