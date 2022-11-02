@@ -14,19 +14,17 @@ let app = new Vue({
       order: null,
       show: false,
       modalOpen: false,
-      errors: {
-        name: "",
-        number: "",
-      },
+      errors: [],
+      disabled: [true, true]
     };
   },
   watch: {
     name(value) {
-      this.name = value;
+      // this.name = value;
       this.nameValidation(value);
     },
     number(value) {
-      this.number = value;
+      // this.number = value;
       this.numberValidation(value);
     },
   },
@@ -55,22 +53,27 @@ let app = new Vue({
         this.cart.splice(selectedCartItem, 1);
       }
     },
-    nameValidation() {
-      let namePattern = /\d/;
-      if (namePattern.test(this.name)) {
-        this.errors.name = "Valid name required";
+    nameValidation(name) {
+      let nameRegex = /\d/
+      if (!nameRegex.test(name)) {
+        this.errors['name'] = '';
+        this.disabled = [false, this.disabled[1]]
       } else {
-        this.errors.name = "";
+        this.errors['name'] = 'Invalid Name';
+        this.disabled = [true, this.disabled[1]]
       }
     },
-    numberValidation() {
-      const validationRegex = /^[0-9+\(\)#\.\s\/ext-]+$/;
-      if (validationRegex.test(this.number) === false) {
-        this.errors.number = "Valid number required";
-      } else if (this.number.length > 0 && this.number.length < 11) {
-        this.errors.number = "Minimum of 11 numbers";
+    numberValidation(number) {
+      const validationNumber = /^((\+44)|(0)) ?\d{4} ?\d{6}$/;
+      if (!number) {  
+        this.errors['number'] = 'Please enter your number';
+        this.disabled = [this.disabled[0], true]
+      }else if (!validationNumber.test(number)) {
+        this.errors['number'] = 'Please enter a valid UK phone number';
+        this.disabled = [this.disabled[0], true]
       } else {
-        this.errors.number = "";
+        this.errors['number'] = '';
+        this.disabled = [this.disabled[0], false]
       }
     },
   },
