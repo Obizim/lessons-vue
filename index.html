@@ -5,29 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CDN  -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
 
     <!-- Font Awesome CDN  -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <!-- FONT FAMILY  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="./css/syle.css" />
     <title>LEZIONE</title>
   </head>
@@ -37,13 +23,8 @@
         <nav class="container navbar navbar-light justify-content-between">
           <h4 class="navbar-brand">LEZIONE</h4>
 
-          <button
-            type="button"
-            class="btn btn-danger"
-            :disabled="cart.length === 0"
-            @click="show = !show"
-          >
-            <img src="./images/cartIcon.svg" alt="Cart Icon" class="" />
+          <button type="button" class="btn btn-danger" :disabled="cart.length === 0" @click="show = !show">
+            <img src="./images/cartIcon.svg" alt="Cart Icon" />
             <span class="badge bg-white text-dark">{{ cartCount }}</span>
           </button>
         </nav>
@@ -53,77 +34,36 @@
         <div class="row">
           <!-- SEARCH & FILTERS  -->
           <div class="col mt-4">
-            <input
-              type="text"
-              placeholder="Search for a lesson"
-              v-model="search"
-              class="p-2 form-control"
-            />
+            <input type="text" placeholder="Search for a lesson" v-model="search" class="p-2 form-control" />
 
             <h5 class="mt-4 mb-4">FILTERS</h5>
             <form>
               <fieldset id="group1" class="border-bottom">
                 <div>
-                  <input
-                    id="subject"
-                    type="radio"
-                    value="subject"
-                    v-model="category"
-                    name="group1"
-                  />
+                  <input id="subject" type="radio" value="subject" v-model="category" name="group1" />
                   <label for="subject">Subject</label>
                 </div>
                 <div>
-                  <input
-                    id="location"
-                    type="radio"
-                    value="location"
-                    v-model="category"
-                    name="group1"
-                  />
+                  <input id="location" type="radio" value="location" v-model="category" name="group1" />
                   <label for="location">Location</label>
                 </div>
                 <div>
-                  <input
-                    id="price"
-                    type="radio"
-                    value="price"
-                    v-model="category"
-                    name="group1"
-                  />
+                  <input id="price" type="radio" value="price" v-model="category" name="group1" />
                   <label for="price">Price</label>
                 </div>
                 <div>
-                  <input
-                    id="availability"
-                    type="radio"
-                    value="availability"
-                    v-model="category"
-                    name="group1"
-                  />
+                  <input id="availability" type="radio" value="availability" v-model="category" name="group1" />
                   <label for="availability">Availability</label>
                 </div>
               </fieldset>
 
               <fieldset id="group2" class="mt-4">
                 <div>
-                  <input
-                    id="ascending"
-                    type="radio"
-                    value="ascending"
-                    v-model="order"
-                    name="group2"
-                  />
+                  <input id="ascending" type="radio" value="ascending" v-model="order" name="group2" />
                   <label for="ascending">Ascending</label>
                 </div>
                 <div>
-                  <input
-                    id="descending"
-                    type="radio"
-                    value="descending"
-                    v-model="order"
-                    name="group2"
-                  />
+                  <input id="descending" type="radio" value="descending" v-model="order" name="group2" />
                   <label for="descending">Descending</label>
                 </div>
               </fieldset>
@@ -133,47 +73,23 @@
           <!-- LESSON CARDS  -->
           <div class="col-9 mt-4">
             <div class="row">
-              <div
-                class="col-md-6 col-lg-4 mb-4"
-                v-for="lesson in searchLessons"
-                :key="lesson.id"
-              >
+              <div class="col-md-6 col-lg-4 mb-4" v-for="lesson in searchLessons" :key="lesson.id" >
                 <div class="card">
-                  <img
-                    :src="lesson.image"
-                    alt="lesson.subject"
-                    class="card-img-top"
-                  />
+                  <img :src="lesson.image" alt="lesson.subject" class="card-img-top" />
                   <div class="card-body">
-                    <i
-                      :class="lesson.icon"
-                      class="fa-2x mb-2"
-                      aria-hidden="true"
-                    ></i>
+                    <i :class="lesson.icon" class="fa-2x mb-2" aria-hidden="true"></i>
                     <h5 class="card-title">Subject: {{ lesson.subject }}</h5>
-                    <p class="card-text mb-0">
-                      Location: {{ lesson.location }}
-                    </p>
+                    <p class="card-text mb-0"> Location: {{ lesson.location }}</p>
                     <p class="card-text mb-0">Price: £{{ lesson.price }}</p>
-                    <p class="card-text">
-                      Spaces: {{ lesson.spaces - lesson.count }}
-                    </p>
-                    <button
-                      class="btn btn-outline-danger btn-sm"
-                      @click="addToCart(lesson)"
-                      :disabled="lesson.count === lesson.spaces"
-                    >
-                      Add to cart
-                    </button>
+                    <p class="card-text"> Spaces: {{ lesson.spaces - lesson.count }} </p>
+                    <button class="btn btn-outline-danger btn-sm" @click="addToCart(lesson)" :disabled="lesson.count === lesson.spaces" > Add to cart </button>
                   </div>
                 </div>
               </div>
 
               <!-- ALert Error for Search -->
               <div class="col mb-4" v-show="searchLessons.length === 0">
-                <div class="alert alert-danger" role="alert">
-                  Alert!! Lesson not found!.
-                </div>
+                <div class="alert alert-danger" role="alert"> Alert!! Lesson not found!.</div>
               </div>
             </div>
           </div>
@@ -181,17 +97,9 @@
       </div>
 
       <!-- Cart Items  -->
-      <div
-        class="sidebar bg-white p-4 sidescroll"
-        :class="{ active: !show, inactive: show}"
-      >
+      <div class="sidebar bg-white p-4 sidescroll" :class="{ active: !show, inactive: show}" >
         <div class="row border-bottom container">
-          <span
-            class="col-3 font-weight-bold"
-            style="cursor: pointer"
-            @click="show = !show"
-            >&times;</span
-          >
+          <span class="col-3 font-weight-bold" style="cursor: pointer" @click="show = !show">&times;</span>
           <h4 class="col-9">Cart Items</h4>
         </div>
 
@@ -208,9 +116,7 @@
                 <p class="card-text mb-0">Location: {{ item.location }}</p>
                 <p class="card-text">Price: {{ item.price }}</p>
                 <h5 class="card-text bold">Count: X{{ item.count }}</h5>
-                <button class="btn btn-danger" @click="removeFromCart(item.id)">
-                  Remove
-                </button>
+                <button class="btn btn-danger" @click="removeFromCart(item.id)"> Remove </button>
               </div>
             </div>
           </div>
@@ -226,36 +132,16 @@
                 <label for="exampleInputName">Name</label>
                 <span class="text-danger">{{ errors.name }}</span>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputName"
-                placeholder="Enter Name"
-                v-model="name"
-              />
+              <input type="text" class="form-control" id="exampleInputName" placeholder="Enter Name" v-model="name" />
             </div>
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <label for="exampleInputNumber">Number</label>
                 <span class="text-danger">{{ this.errors.number }}</span>
               </div>
-              <input
-                type="tel"
-                class="form-control"
-                id="exampleInputNumber"
-                maxlength="11"
-                placeholder="Enter a valid number"
-                v-model="number"
-              />
+              <input type="tel" class="form-control" id="exampleInputNumber" placeholder="Enter a valid number" v-model="number" />
             </div>
-            <button
-              type="submit"
-              class="btn btn-danger"
-              :disabled="!disabled.every(i => i === false)"
-              @click="toggleModal"
-            >
-              Checkout
-            </button>
+            <button type="submit" class="btn btn-danger" :disabled="!disabled.every(i => i === false)" @click="toggleModal"> Checkout </button>
           </form>
         </div>
       </div>
@@ -268,31 +154,16 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Checkout Successfull</h5>
-                    <button
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span
-                        aria-hidden="true"
-                        onClick="window.location.reload();"
-                        >&times;</span
-                      >
+                    <h5 class="modal-title">Checkout Successful</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true" onClick="window.location.reload();">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
                     <p>You have successfully checked out items from the cart</p>
                   </div>
                   <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      onClick="window.location.reload();"
-                    >
-                      Close
-                    </button>
+                    <button type="button" class="btn btn-secondary" onClick="window.location.reload();">Close</button>
                   </div>
                 </div>
               </div>
@@ -301,7 +172,7 @@
         </transition>
       </div>
 
-      <!-- end  -->
+      <!-- End  -->
     </div>
   </body>
 

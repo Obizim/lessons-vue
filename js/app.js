@@ -20,11 +20,9 @@ let app = new Vue({
   },
   watch: {
     name(value) {
-      // this.name = value;
       this.nameValidation(value);
     },
     number(value) {
-      // this.number = value;
       this.numberValidation(value);
     },
   },
