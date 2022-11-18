@@ -67,7 +67,7 @@ let app = new Vue({
         this.errors['number'] = 'Please enter your number';
         this.disabled = [this.disabled[0], true]
       }else if (!validationNumber.test(number)) {
-        this.errors['number'] = 'Please enter a valid UK phone number';
+        this.errors['number'] = 'Invalid Number';
         this.disabled = [this.disabled[0], true]
       } else {
         this.errors['number'] = '';

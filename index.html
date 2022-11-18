@@ -99,12 +99,12 @@
       <!-- Cart Items  -->
       <div class="sidebar bg-white p-4 sidescroll" :class="{ active: !show, inactive: show}" >
         <div class="row border-bottom container">
-          <span class="col-3 font-weight-bold" style="cursor: pointer" @click="show = !show">&times;</span>
+          <span class="col-3 font-weight-bold" style="cursor: pointer" @click="show = !show"><i class="fa fa-close fa-2x mb-2" aria-hidden="true"></i></span>
           <h4 class="col-9">Cart Items</h4>
         </div>
 
-        <div class="breadcrumb mt-4" v-if="cart.length === 0">
-          <h5>No Items In Cart</h5>
+        <div class="alert alert-danger mt-4" v-if="cart.length === 0">
+          <h5>No item in cart!!</h5>
         </div>
 
         <div class="body mt-4 mb-4">
@@ -124,7 +124,7 @@
 
         <!-- CHECKOUT SECTION  -->
         <div class="checkout mt-4">
-          <h4 class="text-center">Checkout</h4>
+          <h4 class="text-center mt-4">Checkout</h4>
 
           <form @submit.prevent>
             <div class="form-group">
