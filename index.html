@@ -75,7 +75,7 @@
             <div class="row">
               <div class="col-md-6 col-lg-4 mb-4" v-for="lesson in searchLessons" :key="lesson.id" >
                 <div class="card">
-                  <img :src="lesson.image" alt="lesson.subject" class="card-img-top" />
+                  <img :src=`http://localhost:3000/${lesson.image}` alt="lesson.subject" class="card-img-top" />
                   <div class="card-body">
                     <i :class="lesson.icon" class="fa-2x mb-2" aria-hidden="true"></i>
                     <h5 class="card-title">Subject: {{ lesson.subject }}</h5>
@@ -110,7 +110,7 @@
         <div class="body mt-4 mb-4">
           <div v-for="item in itemsInCart" :key="item.id">
             <div class="card mb-2">
-              <img :src="item.image" alt="item.subject" class="card-img-top" />
+              <img :src=`http://localhost:3000/${item.image}` alt="item.subject" class="card-img-top" />
               <div class="card-body">
                 <h5 class="card-title">Subject: {{ item.subject }}</h5>
                 <p class="card-text mb-0">Location: {{ item.location }}</p>
@@ -126,7 +126,7 @@
         <div class="checkout mt-4">
           <h4 class="text-center mt-4">Checkout</h4>
 
-          <form @submit.prevent>
+          <form @submit="postOrder" method="post">
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <label for="exampleInputName">Name</label>
@@ -141,7 +141,7 @@
               </div>
               <input type="tel" class="form-control" id="exampleInputNumber" placeholder="Enter a valid number" v-model="number" />
             </div>
-            <button type="submit" class="btn btn-danger" :disabled="!disabled.every(i => i === false)" @click="toggleModal"> Checkout </button>
+            <button type="submit" class="btn btn-danger" :disabled="!disabled.every(i => i === false)"> Checkout </button>
           </form>
         </div>
       </div>

@@ -1,11 +1,11 @@
 let rootContainer = document.getElementById("app");
-import { lessons } from "./lessons.js";
+// import { lessons } from "./lessons.js";
 
 let app = new Vue({
   el: rootContainer,
   data: function () {
     return {
-      lessons,
+      lessons: [],
       cart: [],
       search: "",
       name: "",
@@ -15,8 +15,14 @@ let app = new Vue({
       show: false,
       modalOpen: false,
       errors: [],
-      disabled: [true, true]
+      disabled: [true, true],
     };
+  },
+  created() {
+    fetch(`http://localhost:3000/lessons?search=mathe`)
+      .then((res) => res.json())
+      .then((data) => (this.lessons = data))
+      .catch((err) => console.log(err));
   },
   watch: {
     name(value) {
@@ -39,7 +45,21 @@ let app = new Vue({
       let selectedLesson = this.lessons.find((item) => item.id === lesson.id);
       return selectedLesson.count++;
     },
-    toggleModal() {
+    postOrder(e) {
+      e.preventDefault();
+      fetch("http://localhost:3000/order", {
+        method: "POST",
+        body: JSON.stringify({
+          name: this.name,
+          number: this.number,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res => res.json()))
+        .then((res) => console.log(res + "acknoledged"))
+        .catch((err) => console.log(err + "Error Occurred"));
       this.modalOpen = !this.modalOpen;
     },
     removeFromCart(lesson) {
@@ -52,32 +72,33 @@ let app = new Vue({
       }
     },
     nameValidation(name) {
-      let nameRegex = /\d/
+      let nameRegex = /\d/;
       if (!nameRegex.test(name)) {
-        this.errors['name'] = '';
-        this.disabled = [false, this.disabled[1]]
+        this.errors["name"] = "";
+        this.disabled = [false, this.disabled[1]];
       } else {
-        this.errors['name'] = 'Invalid Name';
-        this.disabled = [true, this.disabled[1]]
+        this.errors["name"] = "Invalid Name";
+        this.disabled = [true, this.disabled[1]];
       }
     },
     numberValidation(number) {
       const validationNumber = /^((\+44)|(0)) ?\d{4} ?\d{6}$/;
-      if (!number) {  
-        this.errors['number'] = 'Please enter your number';
-        this.disabled = [this.disabled[0], true]
-      }else if (!validationNumber.test(number)) {
-        this.errors['number'] = 'Invalid Number';
-        this.disabled = [this.disabled[0], true]
+      if (!number) {
+        this.errors["number"] = "Please enter your number";
+        this.disabled = [this.disabled[0], true];
+      } else if (!validationNumber.test(number)) {
+        this.errors["number"] = "Invalid Number";
+        this.disabled = [this.disabled[0], true];
       } else {
-        this.errors['number'] = '';
-        this.disabled = [this.disabled[0], false]
+        this.errors["number"] = "";
+        this.disabled = [this.disabled[0], false];
       }
     },
+    createOrder() {},
   },
   computed: {
     searchLessons() {
-     const lessons = this.lessons.filter(
+      const lessons = this.lessons.filter(
         (lesson) =>
           lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
           lesson.location.toLowerCase().includes(this.search.toLowerCase())
@@ -103,7 +124,7 @@ let app = new Vue({
               (a, b) => a.spaces - a.count - (b.spaces - b.count)
             );
         }
-      }else if(this.order === "descending"){
+      } else if (this.order === "descending") {
         switch (this.category) {
           case "subject":
             return lessons.sort((a, b) => {
@@ -119,11 +140,11 @@ let app = new Vue({
             return lessons.sort((a, b) => b.price - a.price);
           case "availability":
             return lessons.sort(
-              (a, b) => (b.spaces - b.count )- (a.spaces - a.count)
+              (a, b) => b.spaces - b.count - (a.spaces - a.count)
             );
         }
       }
-      return lessons
+      return lessons;
     },
     cartCount() {
       return this.lessons.reduce(function (acc, obj) {
