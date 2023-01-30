@@ -19,10 +19,7 @@ let app = new Vue({
     };
   },
   created() {
-    fetch(`http://localhost:3000/lessons?search=mathe`)
-      .then((res) => res.json())
-      .then((data) => (this.lessons = data))
-      .catch((err) => console.log(err));
+    this.getData()
   },
   watch: {
     name(value) {
@@ -31,6 +28,9 @@ let app = new Vue({
     number(value) {
       this.numberValidation(value);
     },
+    search(value) {
+      this.getData(value)
+    }
   },
   methods: {
     addToCart(lesson) {
@@ -45,6 +45,13 @@ let app = new Vue({
       let selectedLesson = this.lessons.find((item) => item.id === lesson.id);
       return selectedLesson.count++;
     },
+    getData(search) {
+      search = this.search
+      fetch(`http://localhost:3000/lessons/?search=${search}`)
+      .then((res) => res.json())
+      .then((data) => (this.lessons = data))
+      .catch((err) => console.log(err));
+    },
     postOrder(e) {
       e.preventDefault();
       fetch("http://localhost:3000/order", {
@@ -52,6 +59,7 @@ let app = new Vue({
         body: JSON.stringify({
           name: this.name,
           number: this.number,
+          orders: this.cart
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -94,15 +102,31 @@ let app = new Vue({
         this.disabled = [this.disabled[0], false];
       }
     },
-    createOrder() {},
+    updateSpaces(e) {
+      e.preventDefault()
+      const cartIds = this.cart.map(item => item.id);
+      const matchedProducts = this.lessons.filter(lesson => cartIds.includes(lesson.id));
+      const updates = matchedProducts.map(item => item.id);
+      const result = matchedProducts.map(item => item.spaces - item.count)
+      fetch("http://localhost:3000/lessons", {
+        method: "PUT",
+        body: JSON.stringify({
+          lessonsIds: updates,
+          result: result
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res => res.json()))
+        .then((res) => console.log(res + "acknoledged"))
+        .catch((err) => console.log(err + "Error Occurred"));
+      console.log(result);
+    }
   },
   computed: {
     searchLessons() {
-      const lessons = this.lessons.filter(
-        (lesson) =>
-          lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
-          lesson.location.toLowerCase().includes(this.search.toLowerCase())
-      );
+      const lessons = this.lessons
 
       if (this.order === "ascending") {
         switch (this.category) {

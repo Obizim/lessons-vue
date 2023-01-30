@@ -34,8 +34,10 @@
         <div class="row">
           <!-- SEARCH & FILTERS  -->
           <div class="col mt-4">
+            <form @submit.prevent="getData">
             <input type="text" placeholder="Search for a lesson" v-model="search" class="p-2 form-control" />
-
+          </form>
+          
             <h5 class="mt-4 mb-4">FILTERS</h5>
             <form>
               <fieldset id="group1" class="border-bottom">
@@ -156,14 +158,15 @@
                   <div class="modal-header">
                     <h5 class="modal-title">Checkout Successful</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true" onClick="window.location.reload();">&times;</span>
+                      <span aria-hidden="true" @click="updateSpaces">&times;</span>
+                      <!-- window.location.reload(); -->
                     </button>
                   </div>
                   <div class="modal-body">
-                    <p>You have successfully checked out items from the cart</p>
+                    <p>You have successfully checked out items from the cart and created an order</p>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="window.location.reload();">Close</button>
+                    <button type="button" class="btn btn-secondary" @click="updateSpaces">Close</button>
                   </div>
                 </div>
               </div>
