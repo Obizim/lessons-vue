@@ -7,7 +7,7 @@ let app = new Vue({
     return {
       lessons: [],
       cart: [],
-      url: "http://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com",
+      url: "https://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com",
       search: "",
       name: "",
       number: "",
