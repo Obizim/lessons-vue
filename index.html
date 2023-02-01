@@ -128,7 +128,7 @@
         <div class="checkout mt-4">
           <h4 class="text-center mt-4">Checkout</h4>
 
-          <form @submit="postOrder" method="post">
+          <form @submit="checkoutOrder" method="post">
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <label for="exampleInputName">Name</label>
@@ -158,7 +158,7 @@
                   <div class="modal-header">
                     <h5 class="modal-title">Checkout Successful</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true" @click="updateSpaces">&times;</span>
+                      <span aria-hidden="true" @click="modalOpen = !modalOpen">&times;</span>
                       <!-- window.location.reload(); -->
                     </button>
                   </div>
@@ -166,7 +166,7 @@
                     <p>You have successfully checked out items from the cart and created an order</p>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="updateSpaces">Close</button>
+                    <button type="button" class="btn btn-secondary" @click="modalOpen = !modalOpen">Close</button>
                   </div>
                 </div>
               </div>

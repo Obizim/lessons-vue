@@ -7,6 +7,7 @@ let app = new Vue({
     return {
       lessons: [],
       cart: [],
+      url: "http://localhost:3000",
       search: "",
       name: "",
       number: "",
@@ -40,27 +41,25 @@ let app = new Vue({
       if (selectedCartItem > -1) {
         this.cart[selectedCartItem].count++;
       } else {
-        this.cart.push({ id: lesson.id, count: 1 });
+        this.cart.push({ id: lesson.id, dataId: lesson._id, count: 1 });
       }
       let selectedLesson = this.lessons.find((item) => item.id === lesson.id);
       return selectedLesson.count++;
     },
-    getData(search) {
-      search = this.search
-      fetch(`http://localhost:3000/lessons/?search=${search}`)
-      .then((res) => res.json())
-      .then((data) => (this.lessons = data))
-      .catch((err) => console.log(err));
+    async getData(search) {
+      try{
+        search = this.search
+        const response = await fetch(`${this.url}/lessons/?search=${search}`)
+        let data = await response.json()
+        this.lessons = data
+      }catch(e) {
+        throw new Error(e)
+      }
     },
-    postOrder(e) {
-      e.preventDefault();
-      fetch("http://localhost:3000/order", {
+    createOrder(order) {
+      fetch(`${this.url}/order`, {
         method: "POST",
-        body: JSON.stringify({
-          name: this.name,
-          number: this.number,
-          orders: this.cart
-        }),
+        body: JSON.stringify(order),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -68,6 +67,35 @@ let app = new Vue({
         .then((res => res.json()))
         .then((res) => console.log(res + "acknoledged"))
         .catch((err) => console.log(err + "Error Occurred"));
+    },
+    updateLesson({lesson_id, spaces}){
+      fetch(`${this.url}/lessons/${lesson_id}`, {
+        method: "PUT",
+        body: JSON.stringify({spaces: spaces}),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res => res.json()))
+        .then((res) => console.log(res + "acknoledged"))
+        .catch((err) => console.log(err + "Error Occurred"));
+    },
+    checkoutOrder(e) {
+      e.preventDefault();
+      this.cart.forEach(item => {
+        this.createOrder({
+          name: this.name,
+          phoneNumber: this.number,
+          lesson_id: item.id,
+          spaces: item.count
+        })
+
+        this.updateLesson({
+          lesson_id: item.dataId,
+          spaces: item.count
+        })
+      });
+      this.cart = []
       this.modalOpen = !this.modalOpen;
     },
     removeFromCart(lesson) {
@@ -102,27 +130,6 @@ let app = new Vue({
         this.disabled = [this.disabled[0], false];
       }
     },
-    updateSpaces(e) {
-      e.preventDefault()
-      const cartIds = this.cart.map(item => item.id);
-      const matchedProducts = this.lessons.filter(lesson => cartIds.includes(lesson.id));
-      const updates = matchedProducts.map(item => item.id);
-      const result = matchedProducts.map(item => item.spaces - item.count)
-      fetch("http://localhost:3000/lessons", {
-        method: "PUT",
-        body: JSON.stringify({
-          lessonsIds: updates,
-          result: result
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res => res.json()))
-        .then((res) => console.log(res + "acknoledged"))
-        .catch((err) => console.log(err + "Error Occurred"));
-      console.log(result);
-    }
   },
   computed: {
     searchLessons() {
