@@ -7,7 +7,7 @@ let app = new Vue({
     return {
       lessons: [],
       cart: [],
-      url: "http://localhost:3000",
+      url: "http://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com",
       search: "",
       name: "",
       number: "",
@@ -50,52 +50,54 @@ let app = new Vue({
       try{
         search = this.search
         const response = await fetch(`${this.url}/lessons/?search=${search}`)
-        let data = await response.json()
-        this.lessons = data
+        this.lessons = await response.json()
       }catch(e) {
         throw new Error(e)
       }
     },
-    createOrder(order) {
-      fetch(`${this.url}/order`, {
-        method: "POST",
-        body: JSON.stringify(order),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res => res.json()))
-        .then((res) => console.log(res + "acknoledged"))
-        .catch((err) => console.log(err + "Error Occurred"));
+    async createOrder(order) {
+      try{
+        const response = await fetch(`${this.url}/order`, {
+          method: "POST",
+          body: JSON.stringify(order),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+      }catch(e) {
+        throw new Error(e)
+      }
     },
-    updateLesson({lesson_id, spaces}){
-      fetch(`${this.url}/lessons/${lesson_id}`, {
-        method: "PUT",
-        body: JSON.stringify({spaces: spaces}),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res => res.json()))
-        .then((res) => console.log(res + "acknoledged"))
-        .catch((err) => console.log(err + "Error Occurred"));
+    async updateLesson({lesson_id, spaces}){
+      try{
+        const response = fetch(`${this.url}/lessons/${lesson_id}`, {
+          method: "PUT",
+          body: JSON.stringify({spaces: spaces}),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+      }catch(e) {
+        throw new Error(e)
+      }
     },
     checkoutOrder(e) {
       e.preventDefault();
-      this.cart.forEach(item => {
-        this.createOrder({
+      this.cart.forEach(async item => {
+        await this.createOrder({
           name: this.name,
           phoneNumber: this.number,
           lesson_id: item.id,
           spaces: item.count
         })
 
-        this.updateLesson({
+        await this.updateLesson({
           lesson_id: item.dataId,
           spaces: item.count
         })
       });
       this.cart = []
+      this.show = !this.show
       this.modalOpen = !this.modalOpen;
     },
     removeFromCart(lesson) {
