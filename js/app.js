@@ -1,12 +1,12 @@
 let rootContainer = document.getElementById("app");
-import { lessons } from "./lessons.js";
+// import { lessons } from "./lessons.js";
 
 let app = new Vue({
   el: rootContainer,
   data: function () {
     return {
-      lessons: lessons,
-      // lessons: [],
+      // lessons: lessons,
+      lessons: [],
       cart: [],
       url: "https://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com",
       search: "",
@@ -21,13 +21,10 @@ let app = new Vue({
     };
   },
   created() {
+    this.getData();  
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-      .register("service-worker.js")
-      .then((reg) => console.log("Service worker working", reg))
-      .catch(err => console.log('Service worker not registered', err))
+      navigator.serviceWorker.register("service-worker.js")
     }
-    // this.getData();
   },
   watch: {
     name(value) {
