@@ -1,11 +1,12 @@
 let rootContainer = document.getElementById("app");
-// import { lessons } from "./lessons.js";
+import { lessons } from "./lessons.js";
 
 let app = new Vue({
   el: rootContainer,
   data: function () {
     return {
-      lessons: [],
+      lessons: lessons,
+      // lessons: [],
       cart: [],
       url: "https://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com",
       search: "",
@@ -20,7 +21,13 @@ let app = new Vue({
     };
   },
   created() {
-    this.getData()
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+      .register("service-worker.js")
+      .then((reg) => console.log("Service worker working", reg))
+      .catch(err => console.log('Service worker not registered', err))
+    }
+    // this.getData();
   },
   watch: {
     name(value) {
@@ -30,8 +37,8 @@ let app = new Vue({
       this.numberValidation(value);
     },
     search(value) {
-      this.getData(value)
-    }
+      this.getData(value);
+    },
   },
   methods: {
     addToCart(lesson) {
@@ -47,57 +54,57 @@ let app = new Vue({
       return selectedLesson.count++;
     },
     async getData(search) {
-      try{
-        search = this.search
-        const response = await fetch(`${this.url}/lessons/?search=${search}`)
-        this.lessons = await response.json()
-      }catch(e) {
-        throw new Error(e)
+      try {
+        search = this.search;
+        const response = await fetch(`${this.url}/lessons/?search=${search}`);
+        this.lessons = await response.json();
+      } catch (e) {
+        throw new Error(e);
       }
     },
     async createOrder(order) {
-      try{
+      try {
         const response = await fetch(`${this.url}/order`, {
           method: "POST",
           body: JSON.stringify(order),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
-        })
-      }catch(e) {
-        throw new Error(e)
+        });
+      } catch (e) {
+        throw new Error(e);
       }
     },
-    async updateLesson({lesson_id, spaces}){
-      try{
+    async updateLesson({ lesson_id, spaces }) {
+      try {
         const response = fetch(`${this.url}/lessons/${lesson_id}`, {
           method: "PUT",
-          body: JSON.stringify({spaces: spaces}),
+          body: JSON.stringify({ spaces: spaces }),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
-        })
-      }catch(e) {
-        throw new Error(e)
+        });
+      } catch (e) {
+        throw new Error(e);
       }
     },
     checkoutOrder(e) {
       e.preventDefault();
-      this.cart.forEach(async item => {
+      this.cart.forEach(async (item) => {
         await this.createOrder({
           name: this.name,
           phoneNumber: this.number,
           lesson_id: item.id,
-          spaces: item.count
-        })
+          spaces: item.count,
+        });
 
         await this.updateLesson({
           lesson_id: item.dataId,
-          spaces: item.count
-        })
+          spaces: item.count,
+        });
       });
-      this.cart = []
-      this.show = !this.show
+      this.cart = [];
+      this.show = !this.show;
       this.modalOpen = !this.modalOpen;
     },
     removeFromCart(lesson) {
@@ -135,7 +142,7 @@ let app = new Vue({
   },
   computed: {
     searchLessons() {
-      const lessons = this.lessons
+      const lessons = this.lessons;
 
       if (this.order === "ascending") {
         switch (this.category) {
