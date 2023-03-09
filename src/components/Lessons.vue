@@ -1,4 +1,5 @@
 <script setup>
+
 </script>
 
 <template>
@@ -17,17 +18,11 @@
 </template>
 
 <style scoped>
-  .items {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(250px, 1fr));
-    gap: 1rem;
-  }
   .item {
     border: 1px solid gray;
     padding: 1rem;
     border-radius: 10px;
   }
-
   .add-btn {
     border: transparent;
     padding: .5rem 1rem;
@@ -37,4 +32,9 @@
     color: #fff;
     border-radius: 2px;
   }
+  .items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
 </style>

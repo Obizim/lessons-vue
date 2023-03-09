@@ -4,7 +4,6 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-
   font-weight: normal;
 }
 
@@ -23,7 +22,7 @@ a,
 
 @media (min-width: 1024px) {
   body {
-    display: flex;
+    /* display: flex; */
     /* place-items: center; */
   }
 
