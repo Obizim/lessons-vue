@@ -1,36 +1,59 @@
 <script>
-import Lessons from './components/Lessons.vue'
-import Checkout from './components/Checkout.vue'
+import Lessons from "./components/Lessons.vue";
+import Checkout from "./components/Checkout.vue";
+import products from "./components/lessons.json";
 
 export default {
-  name: "Lessons App",
+  name: "App",
   data() {
     return {
-      currentView: Lessons
-    }
+      currentView: Lessons,
+      products: products,
+      cart: [],
+    };
   },
+  components: { Lessons, Checkout },
   methods: {
     showView() {
-      if(this.currentView === Lessons){
-        this.currentView = Checkout
-      }else{
-        this.currentView = Lessons
+      if (this.currentView === Lessons) {
+        this.currentView = Checkout;
+      } else {
+        this.currentView = Lessons;
       }
-    }
-  }
-}
+    },
+    addToCart(product) {
+      let selectedCartItem = this.cart.findIndex(
+        (cart) => cart.id === product.id
+      );
+      if (selectedCartItem > -1) {
+        this.cart[selectedCartItem].count++;
+      } else {
+        this.cart.push({ id: product.id, count: 1 });
+      }
+      let selectedLesson = this.products.find((item) => item.id === product.id);
+      return selectedLesson.count++;
+    },
+  },
+  computed: {
+    cartCount() {
+      return this.products.reduce(function (acc, obj) {
+        return acc + obj.count;
+      }, 0);
+    },
+  },
+};
 </script>
 
 <template>
   <div id="app">
     <header>
       <div class="wrapper">
-        <button @click="showView" class="c-btn">{itemsCount} Cart</button>
+        <button @click="showView" class="c-btn">{{cartCount}} item(s) in Cart</button>
       </div>
     </header>
 
     <main>
-      <component :is="currentView"></component>
+      <component :is="currentView" :products="products" @add-to-cart="addToCart"></component>
     </main>
   </div>
 </template>
@@ -41,7 +64,7 @@ header {
   margin: 2rem 0;
 }
 .c-btn {
-  background-color: #00BD7E;
+  background-color: #00bd7e;
   color: #fff;
   border: transparent;
   padding: 1rem;
