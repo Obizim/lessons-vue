@@ -1,33 +1,32 @@
 <script>
 import ProductsList from "./components/Lessons.vue";
 import Checkout from "./components/Checkout.vue";
-import products from "./components/lessons.json";
 
 export default {
   name: "App",
   data() {
     return {
       currentView: ProductsList,
-      products: products,
+      products: [],
       cart: [],
       search: "",
       category: null,
       order: null,
       baseUrl:
-        "http://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com/products",
+        "http://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com/lessons",
     };
   },
   components: { ProductsList, Checkout },
-  // created() {
-  //   fetch(this.baseUrl)
-  //     .then((res) => res.json())
-  //     .then((res) => (this.products = res));
-  // },
+  created() {
+    fetch(this.baseUrl)
+      .then((res) => res.json())
+      .then((res) => (this.products = res));
+  },
   methods: {
     showView() {
       if (this.currentView === ProductsList) {
         this.currentView = Checkout;
-      } else {
+      }else {
         this.currentView = ProductsList;
       }
     },
@@ -74,7 +73,6 @@ export default {
           product.subject.toLowerCase().includes(this.search.toLowerCase()) ||
           product.location.toLowerCase().includes(this.search.toLowerCase())
       );
-
       if (this.order === "ascending") {
         switch (this.category) {
           case "subject":
@@ -221,20 +219,5 @@ input{
 .c-btn:disabled {
   background-color: gray;
   text-decoration: line-through;
-}
-
-@media (min-width: 1024px) {
-  header {
-    /* display: flex;
-    flex-direction: column;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2); */
-  }
-  header .wrapper {
-    /* display: flex;
-    flex-direction: column;
-    place-items: flex-start;
-    flex-wrap: wrap; */
-  }
 }
 </style>
