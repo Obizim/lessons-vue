@@ -1,11 +1,18 @@
 <script>
 export default {
   name: "Checkout",
-  props: ['cart']
+  props: ['cart'],
+  methods: {
+    removeFromCart(product) {
+      this.$emit("remove-from-cart", product);
+    },
+  },
 }
 </script>
 
 <template>
+  <main>
+    <h5 class="h5-title">Cart Items</h5>
   <section class="items">
     <div v-for="item in cart" :key="item.id">
       <div class="item">
@@ -13,16 +20,17 @@ export default {
         <div class="details">
           <h3>Subject: {{ item.subject }}</h3>
           <p>Location: {{ item.location }}</p>
-          <p>Price: {{ item.price }}</p>
+          <p>Price: £{{ item.price }}</p>
           <p>Spaces: X{{ item.count }}</p>
         </div>
         <button
-          class="add-btn">
+          class="add-btn" @click="removeFromCart(item.id)">
           Remove from cart
         </button>
       </div>
     </div>
   </section>
+</main>
 </template>
 
 <style scoped>
@@ -35,6 +43,10 @@ export default {
   border: 1px solid gray;
   padding: 1rem;
   border-radius: 10px;
+}
+.h5-title {
+  font-size: 1.2rem;
+  margin: 1rem 0;
 }
 .add-btn {
   border: transparent;
