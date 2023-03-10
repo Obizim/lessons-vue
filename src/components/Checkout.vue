@@ -1,44 +1,48 @@
-<script setup>
-// defineProps({
-//   msg: {
-//     type: String,
-//     required: true
-//   }
-// })
+<script>
+export default {
+  name: "Checkout",
+  props: ['cart']
+}
 </script>
 
 <template>
-  <div class="greetings">
-    <!-- <h1 class="green">{{ msg }}</h1> -->
-    <h3>
-      You’ve successfully created a project with
-      <a target="_blank" href="https://vitejs.dev/">Vite</a> +
-      <a target="_blank" href="https://v2.vuejs.org/">Vue 2</a>.
-    </h3>
-  </div>
+  <section class="items">
+    <div v-for="item in cart" :key="item.id">
+      <div class="item">
+        <i><span name="icon"></span></i>
+        <div class="details">
+          <h3>Subject: {{ item.subject }}</h3>
+          <p>Location: {{ item.location }}</p>
+          <p>Price: {{ item.price }}</p>
+          <p>Spaces: X{{ item.count }}</p>
+        </div>
+        <button
+          class="add-btn">
+          Remove from cart
+        </button>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  top: -10px;
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 }
-
-h3 {
-  font-size: 1.2rem;
+.item {
+  border: 1px solid gray;
+  padding: 1rem;
+  border-radius: 10px;
 }
-
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    display: block;
-    text-align: left;
-  }
+.add-btn {
+  border: transparent;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  background-color: #00bd7e;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 2px;
 }
 </style>

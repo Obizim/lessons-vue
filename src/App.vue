@@ -40,6 +40,13 @@ export default {
         return acc + obj.count;
       }, 0);
     },
+    itemsInCart() {
+      const item = this.cart.map((i) => {
+        let selectedLesson = this.products.find((item) => item.id === i.id);
+        return { ...selectedLesson, ...i };
+      });
+      return item;
+    },
   },
 };
 </script>
@@ -48,12 +55,19 @@ export default {
   <div id="app">
     <header>
       <div class="wrapper">
-        <button @click="showView" class="c-btn">{{cartCount}} item(s) in Cart</button>
+        <button @click="showView" class="c-btn">
+          {{ cartCount }} item(s) in Cart
+        </button>
       </div>
     </header>
 
     <main>
-      <component :is="currentView" :products="products" @add-to-cart="addToCart"></component>
+      <component
+        :is="currentView"
+        :products="products"
+        :cart="itemsInCart"
+        @add-to-cart="addToCart"
+      ></component>
     </main>
   </div>
 </template>
