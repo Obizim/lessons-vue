@@ -21,12 +21,16 @@ export default {
     fetch(this.baseUrl)
       .then((res) => res.json())
       .then((res) => (this.products = res));
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
   },
   methods: {
     showView() {
       if (this.currentView === ProductsList) {
         this.currentView = Checkout;
-      }else {
+      } else {
         this.currentView = ProductsList;
       }
     },
@@ -68,7 +72,7 @@ export default {
       return item;
     },
     searchProducts() {
-     const products = this.products.filter(
+      const products = this.products.filter(
         (product) =>
           product.subject.toLowerCase().includes(this.search.toLowerCase()) ||
           product.location.toLowerCase().includes(this.search.toLowerCase())
@@ -93,7 +97,7 @@ export default {
               (a, b) => a.spaces - a.count - (b.spaces - b.count)
             );
         }
-      }else if(this.order === "descending"){
+      } else if (this.order === "descending") {
         switch (this.category) {
           case "subject":
             return products.sort((a, b) => {
@@ -109,12 +113,12 @@ export default {
             return products.sort((a, b) => b.price - a.price);
           case "availability":
             return products.sort(
-              (a, b) => (b.spaces - b.count )- (a.spaces - a.count)
+              (a, b) => b.spaces - b.count - (a.spaces - a.count)
             );
         }
       }
-      return products
-    }
+      return products;
+    },
   },
 };
 </script>
@@ -132,36 +136,77 @@ export default {
         <div class="row">
           <!-- SEARCH & FILTERS  -->
           <div class="col mt-4">
-            <input type="text" placeholder="Search for a lesson" v-model="search" class="form_input" />
+            <input
+              type="text"
+              placeholder="Search for a lesson"
+              v-model="search"
+              class="form_input"
+            />
 
             <h5 class="filter-h5">Filters</h5>
             <form>
               <fieldset id="group1" class="border-bottom">
                 <div>
-                  <input id="subject" type="radio" value="subject" v-model="category" name="group1" />
+                  <input
+                    id="subject"
+                    type="radio"
+                    value="subject"
+                    v-model="category"
+                    name="group1"
+                  />
                   <label for="subject">Subject</label>
                 </div>
                 <div>
-                  <input id="location" type="radio" value="location" v-model="category" name="group1" />
+                  <input
+                    id="location"
+                    type="radio"
+                    value="location"
+                    v-model="category"
+                    name="group1"
+                  />
                   <label for="location">Location</label>
                 </div>
                 <div>
-                  <input id="price" type="radio" value="price" v-model="category" name="group1" />
+                  <input
+                    id="price"
+                    type="radio"
+                    value="price"
+                    v-model="category"
+                    name="group1"
+                  />
                   <label for="price">Price</label>
                 </div>
                 <div>
-                  <input id="availability" type="radio" value="availability" v-model="category" name="group1" />
+                  <input
+                    id="availability"
+                    type="radio"
+                    value="availability"
+                    v-model="category"
+                    name="group1"
+                  />
                   <label for="availability">Availability</label>
                 </div>
               </fieldset>
 
               <fieldset id="group2" class="mt-4">
                 <div>
-                  <input id="ascending" type="radio" value="ascending" v-model="order" name="group2" />
+                  <input
+                    id="ascending"
+                    type="radio"
+                    value="ascending"
+                    v-model="order"
+                    name="group2"
+                  />
                   <label for="ascending">Ascending</label>
                 </div>
                 <div>
-                  <input id="descending" type="radio" value="descending" v-model="order" name="group2" />
+                  <input
+                    id="descending"
+                    type="radio"
+                    value="descending"
+                    v-model="order"
+                    name="group2"
+                  />
                   <label for="descending">Descending</label>
                 </div>
               </fieldset>
@@ -201,19 +246,19 @@ fieldset {
   border-radius: 3px;
 }
 .filter-h5 {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
   font-size: 1.2rem;
 }
 
 .form_input {
   margin: 1rem 0;
   width: 100%;
-  padding: .5rem;
+  padding: 0.5rem;
   border-radius: 2px;
   border: 1px solid gray;
 }
 
-input{ 
+input {
   cursor: pointer;
 }
 .c-btn:disabled {
