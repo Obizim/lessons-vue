@@ -27,3 +27,6 @@ npm run dev
 ```sh
 npm run build
 ```
+Github link: https://github.com/Obizim/lessons-vue/tree/CW3
+
+Github Pages: https://obizim.github.io/lessons-vue/
