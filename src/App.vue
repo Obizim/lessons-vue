@@ -13,7 +13,7 @@ export default {
       category: null,
       order: null,
       baseUrl:
-        "http://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com/lessons",
+        "https://restfulapp-env.eba-ymtiuw3d.eu-west-2.elasticbeanstalk.com/lessons",
     };
   },
   components: { ProductsList, Checkout },
