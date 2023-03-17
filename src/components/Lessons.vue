@@ -16,7 +16,7 @@ export default {
     <section class="items">
       <div v-for="product in products" :key="product.id">
         <div class="item">
-          <i><span name="icon"></span></i>
+          <font-awesome-icon :icon="product.icon" size="2x" />
           <div class="details">
             <h3>Subject: {{ product.subject }}</h3>
             <p>Location: {{ product.location }}</p>
